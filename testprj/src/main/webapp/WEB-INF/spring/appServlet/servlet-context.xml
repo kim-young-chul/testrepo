@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+    xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:encryption="http://www.jasypt.org/schema/encryption"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/mvc 
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.jasypt.org/schema/encryption
+    http://www.jasypt.org/schema/encryption/jasypt-spring31-encryption-1.xsd
+	">
+	<mvc:annotation-driven />
+
+	<mvc:resources mapping="/resources/js/**"	location="/resources/js/" />
+	<mvc:resources mapping="/resources/img/**" location="/resources/img/" />
+	<mvc:resources mapping="/resources/css/**" location="/resources/css/" />
+	<mvc:resources mapping="/resources/fonts/**" location="/resources/fonts/" />
+    <mvc:resources mapping="/resources/html/**" location="/resources/html/" />
+
+	<bean id="viewResolver"	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<context:component-scan	base-package="com.spring.mvc" />
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<bean id="rootInterceptor" class="com.spring.mvc.interceptor.RootInterceptor" />
+	<bean id="servletInterceptor" class="com.spring.mvc.interceptor.ServletInterceptor" />
+	<bean id="loginInterceptor" class="com.spring.mvc.interceptor.LoginInterceptor" />
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<ref bean="rootInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/servlet/**" />
+			<mvc:exclude-mapping path="/servlet/user_login" />
+			<mvc:exclude-mapping path="/servlet/login_confirm" />
+			<mvc:exclude-mapping path="/servlet/user_logout" />
+			<ref bean="servletInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/servlet/login_confirm" />
+			<mvc:mapping path="/servlet/user_logout" />
+			<ref bean="loginInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<bean id="simpleMappingExceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<map>
+				<entry key="Exception" value="error" />
+			</map>
+		</property>
+		<property name="defaultErrorView" value="error" />
+		<property name="exceptionAttribute" value="ex" />
+	</bean>
+    
+</beans>
