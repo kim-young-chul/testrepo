@@ -4,7 +4,7 @@
 <mapper namespace="mappers.notice-mapper">
 	<update id="updateNotice" parameterType="noticeDto">
 		UPDATE notice
-		SET subject	= #{subject}, content = #{content}
+		SET subject = #{subject}, content = #{content}
 		WHERE idnotice = #{idnotice}
 	</update>
 	<delete id="deleteNotice" parameterType="noticeDto">

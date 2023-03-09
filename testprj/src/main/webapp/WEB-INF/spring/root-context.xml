@@ -15,6 +15,7 @@
     http://www.jasypt.org/schema/encryption
     http://www.jasypt.org/schema/encryption/jasypt-spring31-encryption-1.xsd
 	">
+
     <context:property-placeholder location="classpath:local.properties" />
     <util:properties id="property" location="classpath:local.properties"/>
 

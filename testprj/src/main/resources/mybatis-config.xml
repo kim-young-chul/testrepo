@@ -11,8 +11,7 @@
 	<!-- 사용하려는 DTO에 대한 축약 이름 -->
 	<typeAliases>
 		<typeAlias type="com.spring.mvc.dto.UserDto" alias="userdto" />
-		<typeAlias type="com.spring.mvc.dto.NoticeDto"
-			alias="noticeDto" />
+		<typeAlias type="com.spring.mvc.dto.NoticeDto" alias="noticeDto" />
 	</typeAliases>
 
 	<!-- 사용할 쿼리에 대한 등록 -->
